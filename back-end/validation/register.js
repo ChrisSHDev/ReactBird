@@ -31,7 +31,7 @@ module.exports = function (data) {
         errors.password2 = 'Confrim password is requird';
     }
 
-    if(Validator.equals(data.password, data.password2)){
+    if(!Validator.equals(data.password, data.password2)){
         errors.password2 = 'Passwords must match';
     }
 

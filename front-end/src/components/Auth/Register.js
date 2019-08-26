@@ -3,6 +3,10 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { registerUser } from '../../actions/authActions';
 
 const styles = {
     textField: {
@@ -17,6 +21,15 @@ const styles = {
 };
 
 class Register extends Component {
+
+    state = {
+        email: '',
+        login: '',
+        password: '',
+        password2: ''
+    }
+
+    /*
     constructor (props) {
         super(props)
 
@@ -30,6 +43,26 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    */
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name ]: e.target.value
+        })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+            email: this.state.email,
+            login: this.state.login,
+            password: this.state.password,
+            password2: this.state.password2
+        }
+        console.log(userData);
+        this.props.registerUser(userData, this.props.history);
+    }
+    /*
     handleChange(e){
         this.setState({ [e.target.name ]: e.target.value})
     }
@@ -43,6 +76,7 @@ class Register extends Component {
        }
        console.log(userData);
     }
+    */
     render() {
         const { classes } = this.props;
         return(
@@ -91,5 +125,9 @@ class Register extends Component {
     };
 }
 
+const mapStateToProps = (state) => ({
+    errors: state.errors
+})
 
-export default withStyles(styles)(Register);
+
+export default connect(mapStateToProps, { registerUser })(withRouter(withStyles(styles)(Register)));
