@@ -1,7 +1,9 @@
 const router = require('express').Router();
 var User = require('../models/User');
 const bcrypt = require('bcryptjs');
+
 const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 router.route('/register')
     .post((req, res) => {
@@ -34,6 +36,11 @@ router.route('/register')
                 })
             })
 
+    });
+
+router.route('/login')
+    .post((req, res) => {
+        res.send('OK!');
     });
 
 module.exports = router;
