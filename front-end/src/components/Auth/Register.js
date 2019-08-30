@@ -26,9 +26,17 @@ class Register extends Component {
         email: '',
         login: '',
         password: '',
-        password2: ''
+        password2: '',
+        errors: {}
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps.errors);
+        if(nextProps.errors){
+            this.setState({ errors: nextProps.errors});
+        }
+        console.log(this.state.errors);
+    }
     /*
     constructor (props) {
         super(props)
@@ -79,6 +87,8 @@ class Register extends Component {
     */
     render() {
         const { classes } = this.props;
+        const { errors } = this.state;
+    
         return(
             <Paper style={{padding: 15}}>
               <form onSubmit={this.handleSubmit}>
@@ -89,6 +99,8 @@ class Register extends Component {
                         value={this.state.email}
                         onChange={this.handleChange}
                         name="email"
+                        helperText={errors.email ? errors.email : ''}
+                        error={errors.email ? true : false}
                     />
                     <TextField
                         label="login"
@@ -97,6 +109,8 @@ class Register extends Component {
                         value={this.state.login}
                         onChange={this.handleChange}
                         className={classes.textField}
+                        helperText={errors.login ? errors.login : ''}
+                        error={errors.login ? true : false}
                         />
                     <TextField
                         label="password"
@@ -105,6 +119,8 @@ class Register extends Component {
                         value={this.state.password}
                         onChange={this.handleChange}
                         className={classes.textField}
+                        helperText={errors.password ? errors.password : ''}
+                        error={errors.password ? true : false}
                         />
                     <TextField
                         label="Repeat password"
@@ -113,6 +129,8 @@ class Register extends Component {
                         value={this.state.password2}
                         onChange={this.handleChange}
                         className={classes.textField}
+                        helperText={errors.password2 ? errors.password2 : ''}
+                        error={errors.password2 ? true : false}
                         />
                     <div className={classes.btnBlock}>
                         <Button variant="outlined" type="submit">
