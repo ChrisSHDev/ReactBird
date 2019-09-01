@@ -1,12 +1,15 @@
-
 import axios from 'axios';
 import { GET_ERRORS, SET_CURRENT_USER } from '../constants';
+import setAuthHeader from '../utils/setAuthHeader';
+
 
 export const loginUser = (userData) => dispatch => {
     axios.post('http://localhost:5000/api/users/login', userData)
         .then(res => {
             const { token } = res.data;
             localStorage.setItem('jwtToken', token)
+            setAuthHeader(token);
+            dispatch(getCurrentUser());
         })
         .catch(err => {
             dispatch ({
@@ -27,9 +30,15 @@ export const registerUser = (userData, history) => dispatch => {
 }
 
 export const getCurrentUser = () => dispatch => {
-    axios.post('http://localhost:5000/api/users')
+    console.log('working');
+    axios.get('http://localhost:5000/api/users/')
         .then(res => dispatch(setCurrentUser(res.data)))
+        .catch(err => {
+            console.log(err.response);
+        })
 }
+
+
 
 export const setCurrentUser = (data) => {
     return {

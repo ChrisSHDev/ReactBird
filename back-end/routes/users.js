@@ -74,7 +74,8 @@ router.route('/login')
     });
 
 router.route('/')
-    .get( passport.authenticate('jwt', { session: false }), (req, res) => {
+    .get( passport.authenticate('jwt', { session: false } ), (req, res) => {
+        console.log('Here!');
         res.json({
             id:req.user.id,
             email: req.user.email,
