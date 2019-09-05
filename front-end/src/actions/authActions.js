@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { GET_ERRORS, SET_CURRENT_USER } from '../constants';
 import setAuthHeader from '../utils/setAuthHeader';
@@ -46,4 +45,10 @@ export const setCurrentUser = (data) => {
         type: SET_CURRENT_USER,
         payload: data
     }
+}
+
+export const logoutUser = () => dispatch => {
+	localStorage.removeItem('jwtToken')
+	setAuthHeader()
+	dispatch(setCurrentUser())
 }

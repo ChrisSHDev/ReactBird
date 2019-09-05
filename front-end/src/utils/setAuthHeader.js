@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 export default function(token) {
@@ -9,4 +8,3 @@ export default function(token) {
         axios.defaults.headers.common['Authorization'] = null;
     }
 }
-

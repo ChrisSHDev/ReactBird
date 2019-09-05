@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { Icon } from '@material-ui/core';
 
-import {logoutUser } from '../../actions/authActions';
+import { logoutUser } from '../../actions/authActions';
 
 const styles = {
     root: {
@@ -28,18 +29,22 @@ const styles = {
 }
 
 class Header extends Component {
-    state = {
-        anchorEl : null
-    }
+	constructor (props) {
+		super(props);
+		this.state = {
+			anchorEl: null
+		}
+		this.handleLogout = this.handleLogout.bind(this)
+	}
 
     handleMenu = (event) => { this.setState({ anchorEl: event.currentTarget})};
+    
     handleClose = () => {this.setState({ anchorEl:null })}
-    handleLogout = () => {
-        this.setState({
-            anchorEl: null
-        })
-        this.props.loggoutUser()
-    }
+
+	handleLogout () {
+		this.setState({ anchorEl: null })
+		this.props.logoutUser()
+	}
     render() {
         const { classes, isAuthenticated } = this.props;
         const { anchorEl } = this.state;
@@ -79,7 +84,7 @@ class Header extends Component {
         </div>
         )
 
-        const authLinks = (
+        const authLinks = isAuthenticated && (
             <div>
                 <IconButton
                     aria-owns={ open ? 'menu-appbar' : undefined }
@@ -104,7 +109,9 @@ class Header extends Component {
                     onClose={this.handleClose}
                 >
                     <MenuItem onClick={ this.handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={ this.handleLogout}>Logout</MenuItem>
+                    <MenuItem>
+                        <Link to='/' onClick={this.handleLogout}>Logout</Link>
+                    </MenuItem>
                 </Menu>
             </div>
         )
@@ -122,7 +129,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
 })
 
-export default connect(mapStateToProps)(withStyles(styles)(Header));
+export default connect(mapStateToProps, { logoutUser })(withStyles(styles)(Header));
