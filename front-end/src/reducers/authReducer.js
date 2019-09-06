@@ -9,11 +9,15 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        
         case SET_CURRENT_USER:
-            console.log(action.payload);
+                if(action.payload == 'undefined'){
+                    console.log('working');
+                    action.payload = false;
+                } 
             return{
                 ...state,
-				isAuthenticated: Object.keys(action.payload).length !== 0,
+				isAuthenticated: action.payload,
                 user: action.payload
             }
         default:
