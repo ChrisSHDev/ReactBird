@@ -9,6 +9,7 @@ class Home extends Component{
 
     render() {
         const { isAuthenticated } = this.props;
+        console.log(isAuthenticated);
         return(
             <div>
              { isAuthenticated ? <ListPost /> : <Login /> }
