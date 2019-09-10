@@ -31,4 +31,12 @@ router.route('/')
     })
 
 
+router.route('/:userId')
+    .get((req, res) => {
+        Post.find({ 'user.id': req.params.userId})
+            .sort({ createdAt: 1})
+            .then(posts => res.json(posts))
+            .catch(err => console.log(err))
+    })
+
 module.exports = router;

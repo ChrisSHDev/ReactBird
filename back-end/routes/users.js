@@ -174,5 +174,23 @@ router.route('/')
 		})
 })
 
+router.route('/:id')
+    .get((req, res) => {
+        User.findById(req.params.id)
+            .then(user => {
+                if(user) {
+                    return res.json({
+                        _id: user.id,
+                        email: user.email,
+                        login: user.login,
+                        followers: user.followers,
+                        following: user.following
+                    })
+                }else {
+                    return res.status(404).json({ msg: 'User not found'})
+                }
+            })
+            .catch(err => console.log(err))
+    })
 
 module.exports = router 
