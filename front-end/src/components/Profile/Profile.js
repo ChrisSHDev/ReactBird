@@ -7,17 +7,60 @@ import {
 } from '../../actions/profileActions';
 import Post from '../Posts/Post';
 import LoadingPost from '../Posts/LoadingPost';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 const styles = {
+    paper: {
+        padding: 8,
+
+    },
+    login: {
+        
+    },
+    email: {
+        color: '#888',
+        marginBottom: 10
+    },
+    detailsBlock : {
+        display: 'flex',
+
+    },
+    detail: {
+        marginRight: 5,
+        fontWeight: 'bold'
+
+    },
+    detailTitle: {
+        marginLeft: 3,
+        textTransform: 'uppercase',
+        fontSize: 10,
+        fontWeight: 'normal'
+    },
+    btnBlock: {
+        width:'100%',
+        textAlign: 'right'
+    },
+    btnFollow: {
+        backgroundColor: '#9400D3',
+        color: 'white',
+        '&:hover' : {
+            color: '#9400D3',
+            borderColor: '#9400D3',
+            backgroundColor : 'white'
+        }
+    }
 
 }
 
 class Profile extends Component {
 
+
     componentDidMount(){
-        this.props.getPostsByUserID(this.props.match.params.userId)
-        this.props.getUserProfile(this.props.match.params.userId)
+        this.props.getPostsByUserId(this.props.match.params.userId);
+        this.props.getUserProfile(this.props.match.params.userId);
     }
+
     render() {
         const { classes, 
                 loadingPosts,
@@ -26,12 +69,62 @@ class Profile extends Component {
                 auth,
                 user,
                 profile
-                } = this.props
-            
-        const items = list && list.mapl(el => <Post key={el._id} post={el} />)
+                } = this.props;
+        
+        let followBtns;
+
+        if(auth.isAuthenticated){
+            if(user.following.indexOf(this.props.match.params.userId) === -1){
+                followBtns = (
+                    <div className= {classes.btnBlock}>
+                        <Button variant="outlined" className= { classes.btnFollow}>
+                            Follow
+                        </Button>
+                    </div>
+                )
+            } else {
+                followBtns = (
+                    <div className= {classes.btnBlock}>
+                        <Button variant="outlined" className= { classes.btnFollow}>
+                            Unfollow
+                        </Button>
+                    </div>
+                )
+            }
+
+        }    
+        let items;
+        items = list && list.map(el => <Post key={el._id} post={el} />)
+
+        let profileInfo;
+        if(profile && items){
+            profileInfo = (
+                <Paper className={ classes.paper}>
+                    <h1 className={classes.login} >{profile.login}</h1>
+                    <div className={classes.email }>{profile.email}</div>
+                    <div className={classes.detailsBlock}>
+                        <div className={classes.detail}>
+                            {items.length}
+                            <span className={classes.detailTitle}>posts</span>
+                        </div>
+                        <div className={classes.detail}>
+                            {profile.followers.length}
+                            <span className={classes.detailTitle}>followers</span>
+                        </div>
+                        <div className={classes.detail}>
+                            {profile.following.length}
+                            <span className={classes.detailTitle}>following</span>
+                        </div>
+                        { followBtns }
+                    </div>
+                </Paper>
+            )
+        }
+        console.log(loadingProfile);
         return (
             <div>
-               { loadingPosts ? <LoadingPost /> : items }
+                { loadingProfile ? <div>Loading</div> : profileInfo }
+                { loadingPosts ? <LoadingPost /> : items }
             </div>
         )
     }

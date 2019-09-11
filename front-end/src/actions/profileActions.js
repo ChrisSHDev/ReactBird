@@ -9,7 +9,7 @@ import {
 
 export const getUserProfile = (userId) => dispatch => {
     dispatch(loadProfile())
-    axios.get(`http//localhost:5000/api/users/${userId}`)
+    axios.get(`http://localhost:5000/api/users/${userId}`)
         .then(res =>  dispatch({
             type: GET_PROFILE,
             payload: res.data
