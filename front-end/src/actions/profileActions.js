@@ -3,11 +3,23 @@ import {
     GET_PROFILE,
     LOAD_PROFILE,
     GET_POSTS,
-    LOADING_POSTS
+    LOADING_POSTS,
+    FOLLOW,
+    UNFOLLOW
 } from '../constants';
 
 
 export const getUserProfile = (userId) => dispatch => {
+    dispatch(loadProfile())
+    axios.get(`http://localhost:5000/api/users/${userId}`)
+        .then(res =>  dispatch({
+            type: GET_PROFILE,
+            payload: res.data
+             }))
+        .catch(err => console.log(err))
+}
+
+export const refreshUserProfile = (userId) => dispatch => {
     dispatch(loadProfile())
     axios.get(`http://localhost:5000/api/users/${userId}`)
         .then(res =>  dispatch({
@@ -22,6 +34,25 @@ export const getPostsByUserId = (userId) => dispatch => {
     axios.get(`http://localhost:5000/api/posts/${userId}`)
         .then(res => dispatch({
             type: GET_POSTS,
+            payload: res.data
+        }))
+        .catch(err => console.log(err))
+}
+
+export const followUser = (userId) => dispatch => {
+    console.log(userId);
+    axios.post('http://localhost:5000/api/users/follow', { userId } )
+        .then(res => dispatch({
+            type: FOLLOW,
+            payload: res.data
+        }))
+        .catch(err => console.log(err))
+}
+
+export const unfollowUser = (userId) => dispatch => {
+    axios.post('http://localhost:5000/api/users/unfollow', { userId } )
+        .then(res => dispatch({
+            type: UNFOLLOW,
             payload: res.data
         }))
         .catch(err => console.log(err))

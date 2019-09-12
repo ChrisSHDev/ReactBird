@@ -3,7 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { 
     getPostsByUserId,
-    getUserProfile
+    getUserProfile,
+    followUser,
+    unfollowUser,
+    refreshUserProfile
 } from '../../actions/profileActions';
 import Post from '../Posts/Post';
 import LoadingPost from '../Posts/LoadingPost';
@@ -61,6 +64,19 @@ class Profile extends Component {
         this.props.getUserProfile(this.props.match.params.userId);
     }
 
+    componentDidUpdate(){
+        if( this.props.auth) {
+            
+        }
+    }
+
+    handleFollow = () => {
+        this.props.followUser(this.props.match.params.userId)
+    }
+
+    handleUnfollow = () => {
+        this.props.unfollowUser(this.props.match.params.userId)
+    }
     render() {
         const { classes, 
                 loadingPosts,
@@ -77,7 +93,7 @@ class Profile extends Component {
             if(user.following.indexOf(this.props.match.params.userId) === -1){
                 followBtns = (
                     <div className= {classes.btnBlock}>
-                        <Button variant="outlined" className= { classes.btnFollow}>
+                        <Button variant="outlined" className= { classes.btnFollow} onClick= {this.handleFollow}>
                             Follow
                         </Button>
                     </div>
@@ -85,7 +101,10 @@ class Profile extends Component {
             } else {
                 followBtns = (
                     <div className= {classes.btnBlock}>
-                        <Button variant="outlined" className= { classes.btnFollow}>
+                        <Button 
+                            variant="outlined" 
+                            className= { classes.btnFollow}
+                            onClick={this.handleUnfollow }>
                             Unfollow
                         </Button>
                     </div>
@@ -139,4 +158,9 @@ const mapStateToProps = (state) => ({
     user: state.auth.user
 })
 
-export default connect(mapStateToProps, { getPostsByUserId, getUserProfile })(withStyles(styles)(Profile));
+export default connect(mapStateToProps, { 
+    getPostsByUserId, 
+    getUserProfile,
+    followUser,
+    unfollowUser 
+})(withStyles(styles)(Profile));

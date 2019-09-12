@@ -11,17 +11,17 @@ const initialState = {
 
 export default function ( state = initialState, action) {
     switch (action.type) {
-        case 'ADD_POST' :
+        case ADD_POST :
             return {
                 ...state,
                 list: [action.payload, ...state.list]
             }
-        case 'LOADING_POSTS' :
+        case LOADING_POSTS :
             return {
                 ...state,
                 loading: true
             }
-        case 'GET_POSTS' :
+        case GET_POSTS :
             console.log(action.payload);
             return {
                 ...state,
