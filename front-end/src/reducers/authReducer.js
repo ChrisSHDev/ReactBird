@@ -13,7 +13,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
 
         case SET_CURRENT_USER:
-            if (action.payload == 'undefined') {
+            if (action.payload === 'undefined') {
                 console.log('working');
                 action.payload = false;
             }
@@ -24,8 +24,9 @@ export default function (state = initialState, action) {
             }
         case FOLLOW:
             return {
-                ...state.user,
+                ...state,
                 user: {
+                    ...state.user,
                     following: [...state.user.following, action.payload]
                 }
             }
@@ -34,7 +35,7 @@ export default function (state = initialState, action) {
                 ...state,
                 user: {
                     ...state.user,
-                    following: state.user.following.filter(item => item != action.payload)
+                    following: state.user.following.filter(item => item !== action.payload)
                 }
             }
         default:

@@ -179,7 +179,7 @@ router.route('/follow')
         passport.authenticate('jwt', { session: false }),
         (req, res) => {
             User.findOneAndUpdate({
-                id: req.user._id
+                _id: req.user._id
             }, {
                 $push: { following: req.body.userId }
             },

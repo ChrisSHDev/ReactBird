@@ -11,7 +11,6 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { Icon } from '@material-ui/core';
 
 import { logoutUser } from '../../actions/authActions';
 

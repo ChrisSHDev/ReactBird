@@ -64,9 +64,11 @@ class Profile extends Component {
         this.props.getUserProfile(this.props.match.params.userId);
     }
 
-    componentDidUpdate(){
-        if( this.props.auth) {
-            
+    componentDidUpdate(prevProps){
+        if(this.props.auth.isAuthenticated) {
+            if(prevProps.user && prevProps.user.following !== this.props.user.following) {
+                this.props.refreshUserProfile(this.props.match.params.userId)
+            }
         }
     }
 
@@ -90,7 +92,10 @@ class Profile extends Component {
         let followBtns;
 
         if(auth.isAuthenticated){
-            if(user.following.indexOf(this.props.match.params.userId) === -1){
+            if(
+                user &&
+                user.following &&
+                user.following.indexOf(this.props.match.params.userId) === -1){
                 followBtns = (
                     <div className= {classes.btnBlock}>
                         <Button variant="outlined" className= { classes.btnFollow} onClick= {this.handleFollow}>
@@ -162,5 +167,6 @@ export default connect(mapStateToProps, {
     getPostsByUserId, 
     getUserProfile,
     followUser,
-    unfollowUser 
+    unfollowUser,
+    refreshUserProfile
 })(withStyles(styles)(Profile));
