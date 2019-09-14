@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
 import { logoutUser } from '../../actions/authActions';
+import SearchForm from '../Search/SearchForm';
 
 const styles = {
     root: {
@@ -45,7 +46,7 @@ class Header extends Component {
 		this.props.logoutUser()
 	}
     render() {
-        const { classes, isAuthenticated } = this.props;
+        const { classes, isAuthenticated, user } = this.props;
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
 
@@ -107,7 +108,10 @@ class Header extends Component {
                     anchorEl= { anchorEl }
                     onClose={this.handleClose}
                 >
-                    <MenuItem onClick={ this.handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={ this.handleClose}>
+                        <Link to={`/profile/${user._id}`}>Profile</Link>
+                        </MenuItem>
+                    
                     <MenuItem>
                         <Link to='/' onClick={this.handleLogout}>Logout</Link>
                     </MenuItem>
@@ -119,6 +123,7 @@ class Header extends Component {
                 <AppBar position="static" style={{ backgroundColor: '#4b0082' }}>
                     <Toolbar className={classes.space}>
                         <Link to="/" className={classes.logo}>ReactBird</Link>
+                        <SearchForm />
                         { isAuthenticated ? authLinks : guestLinks }
                     </Toolbar>
                 </AppBar>

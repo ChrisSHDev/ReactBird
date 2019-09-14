@@ -44,7 +44,7 @@ export const followUser = (userId) => dispatch => {
     axios.post('http://localhost:5000/api/users/follow', { userId } )
         .then(res => dispatch({
             type: FOLLOW,
-            payload: res.data
+            payload: res.data.userId
         }))
         .catch(err => console.log(err))
 }
@@ -53,9 +53,17 @@ export const unfollowUser = (userId) => dispatch => {
     axios.post('http://localhost:5000/api/users/unfollow', { userId } )
         .then(res => dispatch({
             type: UNFOLLOW,
-            payload: res.data
+            payload: res.data.userId
         }))
         .catch(err => console.log(err))
+}
+
+export const searchUser = (searchData, history) => dispatch => {
+    axios.post('http://localhost:5000/api/users/search', searchData)
+    .then(res => {
+        history.push(`/profile/${res.data.userId}`)
+    })
+    .catch(err => history.push('/search'))
 }
 
 export const loadProfile = () => {
