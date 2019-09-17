@@ -6,11 +6,12 @@ import { getPosts, getPostsByFollowingUsers } from '../../actions/postActions';
 import LoadingPosts from './LoadingPost';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Paper from '@material-ui/core/Paper'
 
 
 class ListPost extends Component{
     state = {
-
+        allPosts: false
     }
     componentDidMount(){
         this.props.getPosts()
@@ -24,7 +25,7 @@ class ListPost extends Component{
     
     componentDidUpdate(prevProps, prevState) {
         if(prevState.allPosts !== this.state.allPosts) {
-            this.state.allPosts ? this.props.getPosts() : this.props.getPostsByFollowingUsers()
+            this.state.allPosts ?  this.props.getPostsByFollowingUsers() : this.props.getPosts()
         }
     }
 
@@ -32,16 +33,20 @@ class ListPost extends Component{
         const { list, loading } = this.props;
         const { allPosts } = this.state;
         const items = list && list.map(el => <Post key={el._id} post={el} />)
+        console.log(allPosts);
         return(
             <div>
                 <AddPost />
+                <Paper>
                 <FormControlLabel 
                 control={
                     <Switch checked={allPosts} onChange={this.handleChange} />
                 }
                 label={allPosts ? 'All Posts' : 'From following users '}
                 />
+                                </Paper>
                 { loading ? <LoadingPosts /> :  items}
+
             </div>
         )
     }

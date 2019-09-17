@@ -13,14 +13,14 @@ const styles = (theme) => ({
         position: 'relative',
         borderRadius: theme.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover' : {
+        '&:hover': {
             backgroundColor: fade(theme.palette.common.white, 0.25)
         },
         marginRight: theme.spacing.unit * 2,
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit *3,
+            marginLeft: theme.spacing.unit * 3,
             width: 'auto'
         }
     },
@@ -36,7 +36,7 @@ const styles = (theme) => ({
         color: 'inherit',
         width: '100%'
     },
-    inputInput : {
+    inputInput: {
         paddingTop: theme.spacing.unit,
         paddingRight: theme.spacing.unit,
         paddingBottom: theme.spacing.unit,
@@ -44,7 +44,7 @@ const styles = (theme) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width : 200
+            width: 200
         }
     }
 })
@@ -55,26 +55,26 @@ class SearchForm extends Component {
             text: e.target.value
         }
 
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             this.props.searchUser(searchData, this.props.history)
         }
     }
 
     render() {
         const { classes } = this.props;
-        return(
-            <div className = {classes.search}>
+        return (
+            <div className={classes.search}>
                 <div className={classes.searchIcon}>
                     <SearchIcon />
                 </div>
-            <InputBase 
-                placeholder = "Search user"
-                classes = {{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                }}
-                onKeyPress = {this.handleSubmit}
-            />
+                <InputBase
+                    placeholder="Search user"
+                    classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput
+                    }}
+                    onKeyPress={this.handleSubmit}
+                />
             </div>
         )
     }

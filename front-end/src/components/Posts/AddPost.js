@@ -9,7 +9,8 @@ import { addPost } from '../../actions/postActions'
 
 const styles = {
     paper: {
-        padding: 8
+        padding: 8,
+        marginBottom: 10
     },
     textField: {
         width: '100%'
