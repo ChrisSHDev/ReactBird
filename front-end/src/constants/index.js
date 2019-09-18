@@ -8,3 +8,4 @@ export const GET_PROFILE = "GET_PROFILE";
 export const FOLLOW = 'FOLLOW';
 export const UNFOLLOW = 'UNFOLLOW';
 export const GET_BGIMG = 'GET_BGIMG';
+export const DELETE_POSTS = 'DELETE_POSTS';

@@ -28,6 +28,7 @@ router.route('/')
             .sort({ createAt: -1 })
             .then(posts => res.json(posts))
             .catch(err => console.log(err))
+        console.log(Post);
     })
 
 router.route('/following')
@@ -48,5 +49,17 @@ router.route('/:userId')
             .then(posts => res.json(posts))
             .catch(err => console.log(err))
     })
+
+router.route('/:_id')
+    .delete((req, res) => {
+        console.log('delete-working')
+        Post.findByIdAndRemove({'_id': req.params._id})
+            .then((result) => {
+                res.json(result);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }) 
 
 module.exports = router;

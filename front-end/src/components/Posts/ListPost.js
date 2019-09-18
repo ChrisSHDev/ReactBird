@@ -32,8 +32,8 @@ class ListPost extends Component{
     render() {
         const { list, loading } = this.props;
         const { allPosts } = this.state;
+        console.log(list);
         const items = list && list.map(el => <Post key={el._id} post={el} />)
-        console.log(allPosts);
         return(
             <div>
                 <AddPost />
@@ -53,7 +53,6 @@ class ListPost extends Component{
 }
 
 const mapStateToProps = (state) => (
-
     {
     list: state.post.list,
     loading: state.post.loading
