@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { 
+import {
     getPostsByUserId,
     getUserProfile,
     followUser,
@@ -19,13 +19,13 @@ const styles = {
 
     },
     login: {
-        
+
     },
     email: {
         color: '#888',
         marginBottom: 10
     },
-    detailsBlock : {
+    detailsBlock: {
         display: 'flex',
 
     },
@@ -41,16 +41,16 @@ const styles = {
         fontWeight: 'normal'
     },
     btnBlock: {
-        width:'100%',
+        width: '100%',
         textAlign: 'right'
     },
     btnFollow: {
         backgroundColor: '#9400D3',
         color: 'white',
-        '&:hover' : {
+        '&:hover': {
             color: '#9400D3',
             borderColor: '#9400D3',
-            backgroundColor : 'white'
+            backgroundColor: 'white'
         }
     }
 
@@ -59,14 +59,14 @@ const styles = {
 class Profile extends Component {
 
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getPostsByUserId(this.props.match.params.userId);
         this.props.getUserProfile(this.props.match.params.userId);
     }
 
-    componentDidUpdate(prevProps){
-        if(this.props.auth.isAuthenticated) {
-            if(prevProps.user && prevProps.user.following !== this.props.user.following) {
+    componentDidUpdate(prevProps) {
+        if (this.props.auth.isAuthenticated) {
+            if (prevProps.user && prevProps.user.following !== this.props.user.following) {
                 this.props.refreshUserProfile(this.props.match.params.userId)
             }
         }
@@ -80,52 +80,55 @@ class Profile extends Component {
         this.props.unfollowUser(this.props.match.params.userId)
     }
     render() {
-        const { classes, 
-                loadingPosts,
-                loadingProfile,
-                list,
-                auth,
-                user,
-                profile
-                } = this.props;
-        
+        const { classes,
+            loadingPosts,
+            loadingProfile,
+            list,
+            auth,
+            user,
+            profile
+        } = this.props;
+
         let followBtns;
 
-        if(auth.isAuthenticated){
-            if(
-                user &&
-                user.following &&
-                user.following.indexOf(this.props.match.params.userId) === -1){
-                followBtns = (
-                    <div className= {classes.btnBlock}>
-                        <Button variant="outlined" className= { classes.btnFollow} onClick= {this.handleFollow}>
-                            Follow
+        if (auth.isAuthenticated) {
+
+            if (profile !== null && profile.login !== user.login) {
+                if (
+                    user &&
+                    user.following &&
+                    user.following.indexOf(this.props.match.params.userId) === -1) {
+                    followBtns = (
+                        <div className={classes.btnBlock}>
+                            <Button variant="outlined" className={classes.btnFollow} onClick={this.handleFollow}>
+                                Follow
                         </Button>
-                    </div>
-                )
-            } else {
-                followBtns = (
-                    <div className= {classes.btnBlock}>
-                        <Button 
-                            variant="outlined" 
-                            className= { classes.btnFollow}
-                            onClick={this.handleUnfollow }>
-                            Unfollow
+                        </div>
+                    )
+                } else {
+                    followBtns = (
+                        <div className={classes.btnBlock}>
+                            <Button
+                                variant="outlined"
+                                className={classes.btnFollow}
+                                onClick={this.handleUnfollow}>
+                                Unfollow
                         </Button>
-                    </div>
-                )
+                        </div>
+                    )
+                }
             }
 
-        }    
+        }
         let items;
         items = list && list.map(el => <Post key={el._id} post={el} />)
 
         let profileInfo;
-        if(profile && items){
+        if (profile && items) {
             profileInfo = (
-                <Paper className={ classes.paper}>
+                <Paper className={classes.paper}>
                     <h1 className={classes.login} >{profile.login}</h1>
-                    <div className={classes.email }>{profile.email}</div>
+                    <div className={classes.email}>{profile.email}</div>
                     <div className={classes.detailsBlock}>
                         <div className={classes.detail}>
                             {items.length}
@@ -139,7 +142,7 @@ class Profile extends Component {
                             {profile.following.length}
                             <span className={classes.detailTitle}>following</span>
                         </div>
-                        { followBtns }
+                        {followBtns}
                     </div>
                 </Paper>
             )
@@ -147,8 +150,8 @@ class Profile extends Component {
         console.log(loadingProfile);
         return (
             <div>
-                { loadingProfile ? <div>Loading</div> : profileInfo }
-                { loadingPosts ? <LoadingPost /> : items }
+                {loadingProfile ? <div>Loading</div> : profileInfo}
+                {loadingPosts ? <LoadingPost /> : items}
             </div>
         )
     }
@@ -163,8 +166,8 @@ const mapStateToProps = (state) => ({
     user: state.auth.user
 })
 
-export default connect(mapStateToProps, { 
-    getPostsByUserId, 
+export default connect(mapStateToProps, {
+    getPostsByUserId,
     getUserProfile,
     followUser,
     unfollowUser,

@@ -27,7 +27,18 @@ const styles = {
         marginLeft: 10,
         color: '#bbb',
         fontSize: 14
+    },
+    btnDelete : {
+
+    },
+    contentsBlock:{
+        width: '80%'
+    },
+    btnBlock : {
+        display: 'flex',
+        alignItems: 'center'
     }
+
 }
 
 
@@ -55,9 +66,11 @@ class Post extends Component {
         if (post.user.login === user.login) {
             deleteBtn = (
                 <div className={classes.btnBlock}>
-                    <Button variant="outlined" className={classes.btnFollow} onClick={this.handleRemove}>
+                    <Button variant="outlined" className={classes.btnDelete} onClick={this.handleRemove} style={{
+                        backgroundColor: `#${post.user.id.slice(post.user.id.length - 3)}`, color : 'white'
+                    }}>
                         Delete
-                </Button>
+                    </Button>
                 </div>
             );
         } else {
@@ -72,15 +85,13 @@ class Post extends Component {
                         backgroundColor: `#${post.user.id.slice(post.user.id.length - 3)}`
                     }}
                 ></div>
-                <div>
+                <div className={classes.contentsBlock}>
                     <h3 className={classes.login}>
                         <Link to={`/profile/${post.user.id}`} > {post.user.login} </Link>
                         <span className={classes.time}>{(new Date(post.createdAt)).toLocaleString()}</span></h3>
                     {post.text}
                 </div>
-                <div>
                     {deleteBtn}
-                </div>
             </Paper>
         )
     }
